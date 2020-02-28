@@ -1,0 +1,26 @@
+--https://www.xtivia.com/start-sql-server-lost-tempdb-data-files/
+
+Open DB without tempdb
+cmd (admin priv)
+1...
+cd C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\MSSQL\Binn
+C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\MSSQL\Binn>Sqlservr.exe /f /c
+
+2... Başka bir cmd'den (admin) ile 
+
+cd C:\Program Files\Microsoft SQL Server\MSSQL14.MSSQLSERVER\MSSQL\Binn
+SQLCMD -S localhost -E
+
+
+USE master
+GO
+ALTER DATABASE TempDB MODIFY FILE (NAME = tempdev_01, FILENAME = 'G:\Temp\tempdev_01.mdf')
+GO
+ALTER DATABASE TempDB MODIFY FILE (NAME = templog, FILENAME = 'G:\Temp\tempdb.ldf')
+GO
+
+3) Now go back to Command window #1 and hit CTRL C.
+
+It will ask if you want to stop the instance. Y/N. Enter Y
+
+4) Now start the SQL Server instance from configuration manager. You should see the new data file created and SQL Server started.
